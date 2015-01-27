@@ -8,13 +8,18 @@ import com.github.jasongoetz.asanajama.domain.mapping.FieldMapping;
 import com.github.jasongoetz.asanajama.exception.GatewayException;
 import com.github.jasongoetz.asanajama.jama.JamaRestClient;
 import com.github.jasongoetz.asanajama.util.JsonUtil;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import static com.github.jasongoetz.asanajama.ConnectionProperties.*;
 
-public class JamaGateway implements AppGateway {
+public class JamaGateway {
+
+    Integer pageSize = 10;
 
     JamaRestClient jamaRestClient;
 
@@ -22,34 +27,63 @@ public class JamaGateway implements AppGateway {
         jamaRestClient = JamaRestClient.create(getJamaUsername(), getJamaPassword(), getJamaURL());
     }
 
-    @Override
     public List<Project> getProjects(Integer workspaceId) throws GatewayException {
         return null;
     }
 
-    @Override
     public List<ItemType> getItemTypes() throws GatewayException {
         return null;
     }
 
-    @Override
     public List<Field> getFieldsForItemType(String projectId, String itemTypeId) throws GatewayException {
         return null;
     }
 
-    @Override
     public Item getItem(Integer itemId) throws GatewayException {
         String itemJson = jamaRestClient.get("items/"+itemId);
         Item item = JsonUtil.getDomainObject(itemJson, Item.class);
         return item;
     }
 
-    @Override
-    public List<Item> getItems(Integer project, Integer parentId, Integer filterId) throws GatewayException {
-        return null;
+    public List<Item> getChildren(Integer parentId) throws GatewayException {
+        List<Item> items = new ArrayList();
+        Integer startAt = 0;
+        Integer total = 999;
+        while (startAt < total) {
+            String url = "items/" + parentId + "/children?startAt=" + startAt;
+            String itemsJson = jamaRestClient.get(url);
+            items.addAll((List) JsonUtil.getDomainObjects(itemsJson, Item.class));
+            try {
+                total = new JSONObject(itemsJson).getJSONObject("meta").getJSONObject("pageInfo").getInt("totalResults");
+            } catch (JSONException e) {
+                throw new GatewayException("Could not parse total results from JSON", e);
+            }
+            startAt += pageSize;
+        }
+        return items;
     }
 
-    @Override
+    public List<Item> getItemsFromFilter(Integer filterId, Integer projectId) throws GatewayException {
+        List<Item> items = new ArrayList();
+        Integer startAt = 0;
+        Integer total = 999;
+        while (startAt < total) {
+            String url = String.format("filters/%d/results?startAt=%d", filterId, startAt);
+            if (projectId != null) {
+                url += String.format("&project=%d", projectId);
+            }
+            String itemsJson = jamaRestClient.get(url);
+            items.addAll((List) JsonUtil.getDomainObjects(itemsJson, Item.class));
+            try {
+                total = new JSONObject(itemsJson).getJSONObject("meta").getJSONObject("pageInfo").getInt("totalResults");
+            } catch (JSONException e) {
+                throw new GatewayException("Could not parse total results from JSON", e);
+            }
+            startAt += pageSize;
+        }
+        return items;
+    }
+
     public Item createItem(Item item, HashMap<Integer, FieldMapping> fieldMappings) throws GatewayException {
         String itemJson = JsonUtil.getJsonStringFromObject(item);
         String locationUrl = jamaRestClient.post("items", itemJson);
@@ -57,7 +91,6 @@ public class JamaGateway implements AppGateway {
         return getItem(new Integer(id));
     }
 
-    @Override
     public Item updateItem(Item item, HashMap<Integer, FieldMapping> fieldMappings) throws GatewayException {
         return null;
     }

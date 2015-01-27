@@ -1,5 +1,6 @@
 package com.github.jasongoetz.asanajama.util;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.jasongoetz.asanajama.exception.GatewayException;
 import org.json.JSONArray;
@@ -8,7 +9,8 @@ import org.json.JSONObject;
 import org.springframework.util.StringUtils;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.fail;
 
@@ -57,6 +59,7 @@ public class JsonUtil {
 
     public static <T> T getDomainObject(String jsonResponse, Class clz) throws GatewayException {
         ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         JSONObject responseDataJsonObject = null;
         try {
             responseDataJsonObject = getResponseDataJsonObject(jsonResponse);
@@ -70,19 +73,20 @@ public class JsonUtil {
         }
     }
 
-    public static <T> T[] getDomainObjects(String jsonResponse, Class clz) throws GatewayException {
-        T[] domainObjects;
+    public static <T> List<T> getDomainObjects(String jsonResponse, Class clz) throws GatewayException {
+        List<T> domainObjects;
         ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         try {
             JSONArray array = getResponseDataJsonArray(jsonResponse);
             if(array == null) {
                 return null;
             }
-            domainObjects = (T[]) Array.newInstance(clz, array.length());
+            domainObjects =  new ArrayList<T>(array.length());
             for(int i=0;i<array.length();i++) {
                 JSONObject objectJson = array.getJSONObject(i);
                 try {
-                    domainObjects[i] = (T)mapper.readValue(objectJson.toString(), clz);
+                    domainObjects.add((T)mapper.readValue(objectJson.toString(), clz));
                 } catch (IOException e) {
                     throw new GatewayException("Could not parse json", e);
                 }

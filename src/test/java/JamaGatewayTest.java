@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.HashMap;
+import java.util.List;
 
 public class JamaGatewayTest {
 
@@ -39,8 +40,19 @@ public class JamaGatewayTest {
     }
 
     @Test
-    public void getItems() {
+    public void getChildren() throws GatewayException {
+        Integer parentId = 2736824;
+        List<Item> items = gateway.getChildren(parentId);
+        Assert.assertTrue(items.size() > 0);
+        for (Item item : items) {
+            Assert.assertEquals(parentId, item.getLocation().getParent().getItem());
+        }
+    }
 
+    @Test
+    public void getItems() throws GatewayException {
+        List<Item> items = gateway.getItemsFromFilter(56923, null);
+        Assert.assertTrue(items.size() > 100);
     }
 
     @Test
