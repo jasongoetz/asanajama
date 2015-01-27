@@ -6,11 +6,12 @@ import com.github.jasongoetz.asanajama.domain.ItemType;
 import com.github.jasongoetz.asanajama.domain.mapping.FieldMapping;
 import com.github.jasongoetz.asanajama.exception.GatewayException;
 import net.joelinn.asana.Asana;
-import net.joelinn.asana.tasks.TasksClient;
+import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.List;
 
+@Component
 public class AsanaGateway implements AppGateway {
 
     private Asana asana;
