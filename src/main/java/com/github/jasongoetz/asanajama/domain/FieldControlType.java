@@ -1,7 +1,5 @@
 package com.github.jasongoetz.asanajama.domain;
 
-import com.jamasoftware.contour.api.service.dto.property.LookupPropertyDTO;
-
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;

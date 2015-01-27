@@ -7,6 +7,7 @@ import com.github.jasongoetz.asanajama.domain.Project;
 import com.github.jasongoetz.asanajama.domain.mapping.FieldMapping;
 import com.github.jasongoetz.asanajama.exception.GatewayException;
 import com.github.jasongoetz.asanajama.jama.JamaRestClient;
+import com.github.jasongoetz.asanajama.util.JsonUtil;
 
 import java.util.HashMap;
 import java.util.List;
@@ -37,8 +38,10 @@ public class JamaGateway implements AppGateway {
     }
 
     @Override
-    public Item getItem(Integer item) throws GatewayException {
-        return null;
+    public Item getItem(Integer itemId) throws GatewayException {
+        String itemJson = jamaRestClient.get("items/"+itemId);
+        Item item = JsonUtil.getDomainObject(itemJson, Item.class);
+        return item;
     }
 
     @Override
@@ -48,16 +51,19 @@ public class JamaGateway implements AppGateway {
 
     @Override
     public Item createItem(Item item, HashMap<Integer, FieldMapping> fieldMappings) throws GatewayException {
-//        Item requestItem = new Item();
-//        requestItem.setFields(item.getFields());
-//        requestItem.setProject()
-//        jamaRestClient.post("items", itemJson);
-        return null;
+        String itemJson = JsonUtil.getJsonStringFromObject(item);
+        String locationUrl = jamaRestClient.post("items", itemJson);
+        String id = getIdFromPostLocationUrl(locationUrl);
+        return getItem(new Integer(id));
     }
 
     @Override
     public Item updateItem(Item item, HashMap<Integer, FieldMapping> fieldMappings) throws GatewayException {
         return null;
+    }
+
+    private String getIdFromPostLocationUrl(String locationUrl) throws GatewayException {
+        return locationUrl.substring(locationUrl.lastIndexOf("/") + 1, locationUrl.length());
     }
 
 }

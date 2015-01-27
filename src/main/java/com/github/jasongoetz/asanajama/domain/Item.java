@@ -12,11 +12,13 @@ public class Item {
     private Integer childItemType;
     private Integer project;
     private Location location;
+    private Lock lock;
     private Date createdDate;
     private Date modifiedDate;
     private Integer createdBy;
     private Integer modifiedBy;
     private Map<String, Object> fields;
+    private String type;
 
     public Integer getId() {
         return id;
@@ -74,6 +76,14 @@ public class Item {
         this.location = location;
     }
 
+    public Lock getLock() {
+        return lock;
+    }
+
+    public void setLock(Lock lock) {
+        this.lock = lock;
+    }
+
     public Date getCreatedDate() {
         return createdDate;
     }
@@ -112,5 +122,13 @@ public class Item {
 
     public void setFields(Map<String, Object> fields) {
         this.fields = fields;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }
