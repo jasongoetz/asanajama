@@ -1,4 +1,4 @@
-package jama.domain;
+package com.github.jasongoetz.asanajama.jama.domain;
 
 public class User {
 

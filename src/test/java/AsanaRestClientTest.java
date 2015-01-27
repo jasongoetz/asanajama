@@ -1,4 +1,4 @@
-import exception.GatewayException;
+import com.github.jasongoetz.asanajama.exception.GatewayException;
 import net.joelinn.asana.Asana;
 import net.joelinn.asana.users.User;
 import net.joelinn.asana.users.Users;

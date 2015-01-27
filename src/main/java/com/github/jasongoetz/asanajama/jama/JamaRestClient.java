@@ -1,11 +1,11 @@
-package jama;
+package com.github.jasongoetz.asanajama.jama;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.sun.jersey.core.util.Base64;
-import exception.GatewayException;
+import com.github.jasongoetz.asanajama.exception.GatewayException;
 import org.apache.commons.httpclient.*;
 import org.apache.commons.httpclient.auth.AuthScope;
 import org.apache.commons.httpclient.methods.*;

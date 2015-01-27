@@ -1,14 +1,18 @@
-import domain.HubField;
-import domain.HubItem;
-import domain.HubItemType;
-import domain.HubProject;
-import domain.mapping.FieldMapping;
-import exception.GatewayException;
+package com.github.jasongoetz.asanajama;
+
+import com.github.jasongoetz.asanajama.domain.HubField;
+import com.github.jasongoetz.asanajama.domain.HubItem;
+import com.github.jasongoetz.asanajama.domain.HubItemType;
+import com.github.jasongoetz.asanajama.domain.HubProject;
+import com.github.jasongoetz.asanajama.domain.mapping.FieldMapping;
+import com.github.jasongoetz.asanajama.exception.GatewayException;
 
 import java.util.HashMap;
 import java.util.List;
 
 public class AsanaGateway implements AppGateway {
+
+
 
     @Override
     public List<HubProject> getProjects() throws GatewayException {

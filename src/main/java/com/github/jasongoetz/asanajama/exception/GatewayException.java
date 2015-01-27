@@ -1,4 +1,4 @@
-package exception;
+package com.github.jasongoetz.asanajama.exception;
 
 public class GatewayException extends Throwable {
 

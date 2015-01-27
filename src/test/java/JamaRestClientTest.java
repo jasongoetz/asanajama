@@ -1,7 +1,7 @@
 import com.fasterxml.jackson.core.type.TypeReference;
-import exception.GatewayException;
-import jama.JamaRestClient;
-import jama.domain.User;
+import com.github.jasongoetz.asanajama.exception.GatewayException;
+import com.github.jasongoetz.asanajama.jama.JamaRestClient;
+import com.github.jasongoetz.asanajama.jama.domain.User;
 import org.junit.Before;
 import org.junit.Test;
 
