@@ -1,8 +1,11 @@
 asanaTask:
   name: name
   notes: description
-  createdAt: createdDate
-  modifiedAt: modifiedDate
+
+jama:
+  url: http://localhost:8080/contour
+  username: sample
+  password: password
 
 asanaApiKey: 4mTQwPq1.0HrwyVy06HRN7qilbu6RXW2
 asanaPojectId: 15387227838023
