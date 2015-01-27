@@ -6,12 +6,13 @@ import com.github.jasongoetz.asanajama.domain.HubItemType;
 import com.github.jasongoetz.asanajama.domain.HubProject;
 import com.github.jasongoetz.asanajama.domain.mapping.FieldMapping;
 import com.github.jasongoetz.asanajama.exception.GatewayException;
+import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.List;
 
+@Component
 public class AsanaGateway implements AppGateway {
-
 
 
     @Override
