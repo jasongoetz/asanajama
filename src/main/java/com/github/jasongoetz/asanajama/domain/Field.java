@@ -1,5 +1,5 @@
 package com.github.jasongoetz.asanajama.domain;
 
-public class HubProject {
+public class Field {
 
 }

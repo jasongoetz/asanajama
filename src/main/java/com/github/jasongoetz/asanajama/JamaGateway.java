@@ -3,24 +3,26 @@ package com.github.jasongoetz.asanajama;
 import com.github.jasongoetz.asanajama.domain.Field;
 import com.github.jasongoetz.asanajama.domain.Item;
 import com.github.jasongoetz.asanajama.domain.ItemType;
+import com.github.jasongoetz.asanajama.domain.Project;
 import com.github.jasongoetz.asanajama.domain.mapping.FieldMapping;
 import com.github.jasongoetz.asanajama.exception.GatewayException;
-import net.joelinn.asana.Asana;
-import net.joelinn.asana.tasks.TasksClient;
+import com.github.jasongoetz.asanajama.jama.JamaRestClient;
 
 import java.util.HashMap;
 import java.util.List;
 
-public class AsanaGateway implements AppGateway {
+import static com.github.jasongoetz.asanajama.ConnectionProperties.*;
 
-    private Asana asana;
+public class JamaGateway implements AppGateway {
 
-    public AsanaGateway() {
-        asana = new Asana(ConnectionProperties.getAsanaAPIKey());
+    JamaRestClient jamaRestClient;
+
+    public JamaGateway() throws GatewayException {
+        jamaRestClient = JamaRestClient.create(getJamaUsername(), getJamaPassword(), getJamaURL());
     }
 
     @Override
-    public List<com.github.jasongoetz.asanajama.domain.Project> getProjects(Integer workspaceId) throws GatewayException {
+    public List<Project> getProjects(Integer workspaceId) throws GatewayException {
         return null;
     }
 
@@ -40,12 +42,16 @@ public class AsanaGateway implements AppGateway {
     }
 
     @Override
-    public List<Item> getItems(Integer projectId, Integer parentId, Integer filterId) throws GatewayException {
+    public List<Item> getItems(Integer project, Integer parentId, Integer filterId) throws GatewayException {
         return null;
     }
 
     @Override
     public Item createItem(Item item, HashMap<Integer, FieldMapping> fieldMappings) throws GatewayException {
+//        Item requestItem = new Item();
+//        requestItem.setFields(item.getFields());
+//        requestItem.setProject()
+//        jamaRestClient.post("items", itemJson);
         return null;
     }
 
