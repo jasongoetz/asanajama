@@ -1,0 +1,12 @@
+asanaTask:
+  name: name
+  notes: description
+  createdAt: createdDate
+  modifiedAt: modifiedDate
+
+asanaApiKey: 4mTQwPq1.0HrwyVy06HRN7qilbu6RXW2
+asanaPojectId: 15387227838023
+jamaProjectId: 2
+
+server:
+  port: 8881

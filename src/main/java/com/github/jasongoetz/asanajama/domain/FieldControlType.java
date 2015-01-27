@@ -28,8 +28,8 @@ public enum FieldControlType {
     }
 
 	private static final List<LookupPropertyDTO> FIELD_CONTROL_LIST = Arrays.asList(
-        new LookupPropertyDTO(TEXTAREA.getId(), TEXTAREA.getLabel(), null, false),
-        new LookupPropertyDTO(RICHTEXT.getId(), RICHTEXT.getLabel(), null, false)
+            new LookupPropertyDTO(TEXTAREA.getId(), TEXTAREA.getLabel(), null, false),
+            new LookupPropertyDTO(RICHTEXT.getId(), RICHTEXT.getLabel(), null, false)
     );
 
 	public static List<LookupPropertyDTO> getFieldControlList() {
