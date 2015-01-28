@@ -48,7 +48,7 @@ public class AsanaImporter {
     private void importToJama(List<Item> jamaItems) {
         for(Item item : jamaItems) {
             try {
-                jamaGateway.createItem(item);
+                jamaGateway.createItem(item, null);
             } catch (GatewayException e) {
                 e.printStackTrace();
             }
