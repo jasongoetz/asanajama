@@ -9,6 +9,7 @@ public class TaskToItemMap {
 
     private String name;
     private String notes;
+    private String dueDate;
 
     public String getName() {
         return name;
@@ -24,5 +25,13 @@ public class TaskToItemMap {
 
     public void setNotes(String notes) {
         this.notes = notes;
+    }
+
+    public String getDueDate() {
+        return dueDate;
+    }
+
+    public void setDueDate(String dueDate) {
+        this.dueDate = dueDate;
     }
 }

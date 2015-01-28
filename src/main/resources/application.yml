@@ -1,6 +1,7 @@
 asanaTask:
   name: name
   notes: description
+  dueDate: date1
 
 jama:
   url: http://localhost:8080/contour

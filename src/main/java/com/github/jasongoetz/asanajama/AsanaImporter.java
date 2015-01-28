@@ -39,6 +39,8 @@ public class AsanaImporter {
 
     private SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
 
+    private SimpleDateFormat simpleDateFormatter = new SimpleDateFormat("yyyy-MM-dd");
+
     @Autowired
     private JamaGateway jamaGateway;
 
@@ -91,7 +93,7 @@ public class AsanaImporter {
         Map<String, Object> fieldsMap = new HashMap<>();
         fieldsMap.put(taskToItemMap.getName(), task.name);
         fieldsMap.put(taskToItemMap.getNotes(), task.notes);
-        //fieldsMap.put(taskToItemMap.getDueDate(), dateFormatter.parse(task.dueOn));
+        fieldsMap.put(taskToItemMap.getDueDate(), task.dueOn);
 
         return fieldsMap;
     }
