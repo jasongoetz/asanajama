@@ -4,12 +4,14 @@ asanaTask:
 
 jama:
   url: http://localhost:8080/contour
-  username: sample
+  username: jgoetz
   password: password
 
-asanaApiKey: 4mTQwPq1.0HrwyVy06HRN7qilbu6RXW2
-asanaProjectId: 15387227838023
-jamaProjectId: 2
+asanaApiKey: 77H6ILO3.8RMTGiDJECdEpVpF3ZcMSb8
+asanaProjectId: 25088409559155
+jamaProjectId: 24114
+jamaTaskItemTypeId: 107368
+jamaTaskSetId: 2736824
 
 server:
   port: 8881

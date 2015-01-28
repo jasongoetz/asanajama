@@ -3,15 +3,18 @@ package com.github.jasongoetz.asanajama;
 import com.github.jasongoetz.asanajama.asana.AsanaRestClient;
 import com.github.jasongoetz.asanajama.domain.Item;
 import com.github.jasongoetz.asanajama.domain.Location;
+import com.github.jasongoetz.asanajama.domain.Parent;
 import com.github.jasongoetz.asanajama.exception.GatewayException;
 import net.joelinn.asana.tasks.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Component
 public class AsanaImporter {
@@ -27,6 +30,12 @@ public class AsanaImporter {
 
     @Value("${jamaProjectId}")
     private Integer jamaProjectId;
+
+    @Value("${jamaTaskItemTypeId}")
+    private Integer jamaTaskItemTypeId;
+
+    @Value("${jamaTaskSetId}")
+    private Integer jamaTaskSetId;
 
     private SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
 
@@ -58,18 +67,22 @@ public class AsanaImporter {
 
     private Item taskToItem(Task task) {
         Location location = new Location();
-        location.setParent(null);
+        Parent parent = new Parent();
+        parent.setItem(jamaTaskSetId);
+        location.setParent(parent);
         Item item = new Item();
         item.setProject(jamaProjectId);
+        item.setItemType(jamaTaskItemTypeId);
         item.setLocation(location);
         item.setFields(buildFieldsMap(task));
 
-        try {
-            item.setCreatedDate(dateFormatter.parse(task.createdAt));
-            item.setModifiedDate(dateFormatter.parse(task.createdAt));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+
+//        try {
+//            item.setCreatedDate(dateFormatter.parse(task.createdAt));
+//            item.setModifiedDate(dateFormatter.parse(task.createdAt));
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
 
         return item;
     }
@@ -78,6 +91,7 @@ public class AsanaImporter {
         Map<String, Object> fieldsMap = new HashMap<>();
         fieldsMap.put(taskToItemMap.getName(), task.name);
         fieldsMap.put(taskToItemMap.getNotes(), task.notes);
+        //fieldsMap.put(taskToItemMap.getDueDate(), dateFormatter.parse(task.dueOn));
 
         return fieldsMap;
     }
