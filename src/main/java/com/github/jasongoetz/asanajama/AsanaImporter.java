@@ -22,7 +22,7 @@ public class AsanaImporter {
     @Autowired
     private TaskToItemMap taskToItemMap;
 
-    @Value("${asanaPojectId}")
+    @Value("${asanaProjectId}")
     private Long asanaProjectId;
 
     @Value("${jamaProjectId}")
@@ -39,7 +39,7 @@ public class AsanaImporter {
         List<Task> tasks = asanaRestClient.getTasks(asanaProjectId);
         List<Item> jamaItems = new ArrayList<>();
         for (Task task : tasks) {
-            jamaItems.add(tasktToItem(task));
+            jamaItems.add(taskToItem(task));
         }
 
         importToJama(jamaItems);
@@ -56,7 +56,7 @@ public class AsanaImporter {
 
     }
 
-    private Item tasktToItem(Task task) {
+    private Item taskToItem(Task task) {
         Location location = new Location();
         location.setParent(null);
         Item item = new Item();

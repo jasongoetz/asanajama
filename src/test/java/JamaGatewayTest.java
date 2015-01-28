@@ -77,8 +77,18 @@ public class JamaGatewayTest {
     }
 
     @Test
-    public void updateItem() {
-
+    public void updateItem() throws GatewayException {
+        Item item = gateway.getItem(2736824);
+        String oldName = (String) item.getFields().get("name");
+        System.out.println("Old Name: " + oldName);
+        String newName = "New Tasks Set Name";
+        item.getFields().put("name", newName);
+        Item returnedItem = gateway.updateItem(item, null);
+        System.out.println("New Name: " + returnedItem.getFields().get("name"));
+        Assert.assertEquals(newName, returnedItem.getFields().get("name"));
+        item.getFields().put("name", oldName);
+        returnedItem = gateway.updateItem(item, null);
+        Assert.assertEquals(oldName, returnedItem.getFields().get("name"));
     }
 
 }

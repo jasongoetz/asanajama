@@ -92,7 +92,9 @@ public class JamaGateway {
     }
 
     public Item updateItem(Item item, HashMap<Integer, FieldMapping> fieldMappings) throws GatewayException {
-        return null;
+        String itemJson = JsonUtil.getJsonStringFromObject(item);
+        jamaRestClient.put(String.format("items/%d", item.getId()), itemJson);
+        return getItem(item.getId());
     }
 
     private String getIdFromPostLocationUrl(String locationUrl) throws GatewayException {
