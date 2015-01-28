@@ -8,8 +8,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
-import javax.annotation.PostConstruct;
-
 @Configuration
 @ComponentScan
 @EnableAutoConfiguration
@@ -27,11 +25,6 @@ public class Service {
 
     public void start(String[] args) {
         ApplicationContext applicationContext = new SpringApplicationBuilder(this.getClass()).showBanner(false).run(args);
-    }
-
-    @PostConstruct
-    public void doImport() {
-        asanaImporter.importAsana();
     }
 
 }

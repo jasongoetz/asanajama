@@ -10,6 +10,7 @@ import com.github.jasongoetz.asanajama.jama.JamaRestClient;
 import com.github.jasongoetz.asanajama.util.JsonUtil;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,6 +18,7 @@ import java.util.List;
 
 import static com.github.jasongoetz.asanajama.ConnectionProperties.*;
 
+@Component
 public class JamaGateway {
 
     Integer pageSize = 10;
