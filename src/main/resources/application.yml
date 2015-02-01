@@ -3,10 +3,9 @@ asanaTask:
   notes: description
   dueDate: date1
 
-jama:
-  url: http://localhost:8080/contour
-  username: jgoetz
-  password: password
+jama_url: http://localhost:8080/contour
+jama_username: jgoetz
+jama_password: password
 
 asanaApiKey: 77H6ILO3.8RMTGiDJECdEpVpF3ZcMSb8
 asanaProjectId: 25088409559155

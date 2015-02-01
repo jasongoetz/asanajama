@@ -1,6 +1,6 @@
 package com.github.jasongoetz.asanajama.resource;
 
-import com.github.jasongoetz.asanajama.AsanaImporter;
+import com.github.jasongoetz.asanajama.AsanaSync;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,19 +11,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
-@RequestMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/sync", produces = MediaType.APPLICATION_JSON_VALUE)
 @RestController
-public class ImportResource {
+public class SyncResource {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
-    private AsanaImporter asanaImporter;
+    private AsanaSync asanaImporter;
 
     @RequestMapping(method = RequestMethod.GET)
     @Valid
     public String entity() {
-        asanaImporter.importAsana();
+        asanaImporter.sync();
         return "OK";
     }
 }

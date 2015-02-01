@@ -1,4 +1,3 @@
-import com.github.jasongoetz.asanajama.exception.GatewayException;
 import net.joelinn.asana.Asana;
 import net.joelinn.asana.users.User;
 import net.joelinn.asana.users.Users;
@@ -11,7 +10,7 @@ public class AsanaRestClientTest {
     Asana asana;
 
     @Before
-    public void setupClient() throws GatewayException {
+    public void setupClient() {
         asana = new Asana("77H6ILO3.8RMTGiDJECdEpVpF3ZcMSb8");
     }
 

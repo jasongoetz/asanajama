@@ -1,23 +1,27 @@
 package com.github.jasongoetz.asanajama;
 
 import com.github.jasongoetz.asanajama.asana.AsanaRestClient;
-import com.github.jasongoetz.asanajama.domain.Item;
-import com.github.jasongoetz.asanajama.domain.Location;
-import com.github.jasongoetz.asanajama.domain.Parent;
-import com.github.jasongoetz.asanajama.exception.GatewayException;
+import com.github.jasongoetz.asanajama.jama.JamaRestClient;
+import com.github.jasongoetz.jamarest.domain.item.Location;
+import com.github.jasongoetz.jamarest.domain.item.Parent;
+import com.github.jasongoetz.jamarest.domain.item.RequestItem;
+import com.github.jasongoetz.jamarest.exception.ApiException;
 import net.joelinn.asana.tasks.Task;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Component
-public class AsanaImporter {
+public class AsanaSync {
+
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private AsanaRestClient asanaRestClient;
@@ -42,49 +46,42 @@ public class AsanaImporter {
     private SimpleDateFormat simpleDateFormatter = new SimpleDateFormat("yyyy-MM-dd");
 
     @Autowired
-    private JamaGateway jamaGateway;
+    private JamaRestClient jamaGateway;
 
-    public AsanaImporter() {}
+    public AsanaSync() {}
 
-    public void importAsana() {
+    public void sync() {
         List<Task> tasks = asanaRestClient.getTasks(asanaProjectId);
-        List<Item> jamaItems = new ArrayList<>();
         for (Task task : tasks) {
-            jamaItems.add(taskToItem(task));
-        }
-
-        importToJama(jamaItems);
-    }
-
-    private void importToJama(List<Item> jamaItems) {
-        for(Item item : jamaItems) {
-            try {
-                jamaGateway.createItem(item, null);
-            } catch (GatewayException e) {
-                e.printStackTrace();
+            if (!existsInJama(task)) {
+                try {
+                    createInJama(taskToItem(task));
+                }
+                catch (ApiException e) {
+                    logger.info("Could not create Jama item for task with ID " + task.id + " Name: " + task.name + "Cause: " + e.getMessage());
+                }
             }
         }
-
     }
 
-    private Item taskToItem(Task task) {
+    private boolean existsInJama(Task task) {
+        return false; //Note: eventually this would actually check whether the item already exists already via key mapping of some sort
+    }
+
+    private void createInJama(RequestItem item) throws ApiException {
+        jamaGateway.createItem(item);
+    }
+
+    private RequestItem taskToItem(Task task) {
         Location location = new Location();
         Parent parent = new Parent();
         parent.setItem(jamaTaskSetId);
         location.setParent(parent);
-        Item item = new Item();
+        RequestItem item = new RequestItem();
         item.setProject(jamaProjectId);
         item.setItemType(jamaTaskItemTypeId);
         item.setLocation(location);
         item.setFields(buildFieldsMap(task));
-
-
-//        try {
-//            item.setCreatedDate(dateFormatter.parse(task.createdAt));
-//            item.setModifiedDate(dateFormatter.parse(task.createdAt));
-//        } catch (ParseException e) {
-//            e.printStackTrace();
-//        }
 
         return item;
     }
@@ -93,7 +90,9 @@ public class AsanaImporter {
         Map<String, Object> fieldsMap = new HashMap<>();
         fieldsMap.put(taskToItemMap.getName(), task.name);
         fieldsMap.put(taskToItemMap.getNotes(), task.notes);
-        fieldsMap.put(taskToItemMap.getDueDate(), task.dueOn);
+        if (task.dueOn != null) {
+            fieldsMap.put(taskToItemMap.getDueDate(), task.dueOn);
+        }
 
         return fieldsMap;
     }

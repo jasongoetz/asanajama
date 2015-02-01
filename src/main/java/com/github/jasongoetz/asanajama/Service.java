@@ -1,6 +1,5 @@
 package com.github.jasongoetz.asanajama;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -12,9 +11,6 @@ import org.springframework.context.annotation.Configuration;
 @ComponentScan
 @EnableAutoConfiguration
 public class Service {
-
-    @Autowired
-    private AsanaImporter asanaImporter;
 
     @Value("${asanaApiKey}")
     private String asanaApiKey;
