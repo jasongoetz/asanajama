@@ -28,8 +28,8 @@ public class JamaRestClient {
         jama = new Jama(url, username, password);
     }
 
-    public void createItem(RequestItem item) {
-        jama.items().createItem(item);
+    public int createItem(RequestItem item) {
+        return jama.items().createItem(item);
     }
 
     public User getUserByEmail(String email) {

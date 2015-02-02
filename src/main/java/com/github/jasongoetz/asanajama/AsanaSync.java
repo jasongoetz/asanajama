@@ -1,6 +1,7 @@
 package com.github.jasongoetz.asanajama;
 
 import com.github.jasongoetz.asanajama.asana.AsanaRestClient;
+import com.github.jasongoetz.asanajama.asana.SyncTask;
 import com.github.jasongoetz.asanajama.jama.JamaRestClient;
 import com.github.jasongoetz.jamarest.domain.item.Location;
 import com.github.jasongoetz.jamarest.domain.item.Parent;
@@ -56,12 +57,14 @@ public class AsanaSync {
 
     public void sync() {
         logger.info("Getting Tasks from Asana project " + asanaProjectId);
-        List<Task> tasks = asanaRestClient.getTasks(asanaProjectId);
+        List<SyncTask> tasks = asanaRestClient.getTasks(asanaProjectId);
         logger.info("Retrieved " + tasks.size() + " tasks. Syncing...");
-        for (Task task : tasks) {
+        for (SyncTask task : tasks) {
             if (!existsInJama(task)) {
                 try {
-                    createInJama(taskToItem(task));
+                    RequestItem item = taskToItem(task, jamaTaskSetId);
+                    int jamaId = createInJama(item);
+                    createSubTasks(task, jamaId);
                     logger.info("Created item in Jama for Task " + task.name);
                 }
                 catch (ApiException e) {
@@ -71,18 +74,25 @@ public class AsanaSync {
         }
     }
 
+    private void createSubTasks(SyncTask task, int parent) {
+        for (SyncTask subTask : task.subTasks) {
+            int jamaId = createInJama(taskToItem(subTask, parent));
+            createSubTasks(subTask, jamaId);
+        }
+    }
+
     private boolean existsInJama(Task task) {
         return false; //Note: eventually this would actually check whether the item already exists already via key mapping of some sort
     }
 
-    private void createInJama(RequestItem item) throws ApiException {
-        jamaRestClient.createItem(item);
+    private int createInJama(RequestItem item) throws ApiException {
+        return jamaRestClient.createItem(item);
     }
 
-    private RequestItem taskToItem(Task task) {
+    private RequestItem taskToItem(SyncTask task, int parentId) {
         Location location = new Location();
         Parent parent = new Parent();
-        parent.setItem(jamaTaskSetId);
+        parent.setItem(parentId);
         location.setParent(parent);
         RequestItem item = new RequestItem();
         item.setProject(jamaProjectId);

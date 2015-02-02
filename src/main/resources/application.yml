@@ -4,15 +4,15 @@ asanaTask:
   dueDate: date1
   assignee: assignedTo
 
-jama_url: ENTER_JAMA_URL_HERE
-jama_username: ENTER_JAMA_USER_HERE
-jama_password: ENTER_JAMA_PASSWORD_HERE
+jama_url: http://localhost:8080/contour
+jama_username: sample
+jama_password: password
 
-asanaApiKey: ENTER_KEY_HERE
-asanaProjectId: 22747227023403
-jamaProjectId: 24114
-jamaTaskItemTypeId: 107368
-jamaTaskSetId: 2736824
+asanaApiKey: 4mTQwPq1.0HrwyVy06HRN7qilbu6RXW2
+asanaProjectId: 15387227838023
+jamaProjectId: 1
+jamaTaskItemTypeId: 23
+jamaTaskSetId: 236
 
 server:
   port: 8881
