@@ -2,6 +2,7 @@ package com.github.jasongoetz.asanajama.asana;
 
 import net.joelinn.asana.Asana;
 import net.joelinn.asana.tasks.Task;
+import net.joelinn.asana.users.User;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -39,6 +40,10 @@ public class AsanaRestClient {
 
     public List<Task> getTasks() {
         return asanaClient.tasks().getTasks();
+    }
+
+    public User getUser(long userId) {
+        return asanaClient.users().getUser(userId);
     }
 
     public String getApiKey() {

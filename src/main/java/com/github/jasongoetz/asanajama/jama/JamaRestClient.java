@@ -2,6 +2,8 @@ package com.github.jasongoetz.asanajama.jama;
 
 import com.github.jasongoetz.jamarest.Jama;
 import com.github.jasongoetz.jamarest.domain.item.RequestItem;
+import com.github.jasongoetz.jamarest.domain.user.User;
+import com.github.jasongoetz.jamarest.domain.wrapper.PageResults;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -30,4 +32,11 @@ public class JamaRestClient {
         jama.items().createItem(item);
     }
 
+    public User getUserByEmail(String email) {
+        PageResults<User> pageResults = jama.users().getUsers(null, email, null, null, null, null);
+        if (pageResults.getPageInfo().getResultCount() > 0) {
+            return pageResults.getResults().get(0);
+        }
+        return null;
+    }
 }
